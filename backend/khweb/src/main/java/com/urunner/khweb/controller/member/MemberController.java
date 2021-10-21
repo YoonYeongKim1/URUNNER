@@ -40,9 +40,7 @@ public class MemberController {
 
     }
 
-
-
-    // 회원 탈퇴
+        // 회원 탈퇴
     @DeleteMapping("/leaveMember/{memberNo}")
     public ResponseEntity<Void> leaveMember(@PathVariable("memberNo")Long memberNo) throws Exception {
 
