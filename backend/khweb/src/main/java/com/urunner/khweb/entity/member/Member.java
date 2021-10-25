@@ -1,4 +1,5 @@
 package com.urunner.khweb.entity.member;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+
 @NoArgsConstructor
 @Getter
 @Entity
@@ -17,6 +19,7 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_no")
     private Long memberNo;
+
     private String email;
     private String name;
     private String password;
@@ -24,6 +27,7 @@ public class Member {
 
     @CreationTimestamp
     private Date regDate;
+
     @UpdateTimestamp
     private Date upDate;
 
@@ -57,4 +61,5 @@ public class Member {
     }
 
 
-} 
+
+}
