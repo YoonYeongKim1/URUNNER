@@ -1,6 +1,7 @@
 package com.urunner.khweb.controller.member;
 
 import com.urunner.khweb.controller.dto.MemberRes;
+import com.urunner.khweb.controller.dto.UserDto;
 import com.urunner.khweb.entity.member.Member;
 import com.urunner.khweb.repository.member.MemberRepository;
 import com.urunner.khweb.service.member.MemberService;

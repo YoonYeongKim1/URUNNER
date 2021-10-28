@@ -18,13 +18,17 @@
           required
           type="password"
           v-model="password"
-        ></v-text-field>
+        >
+        </v-text-field>
          <v-btn
           class="mb-3 "
           @click="submit"
         >
           로그인
         </v-btn>
+        <p class="forgot-password text-right">
+          <router-link to="forgot">Forgot password?</router-link>
+        </p>
         <v-divider class="my-3"></v-divider>
         <p class="text-center">간편 로그인</p>
     </v-card-text>
@@ -45,9 +49,10 @@
 
 <script>
 import { loginProcess } from '../util/APIUtil'
-
+// import Vue from "vue";
 
 export default {
+  name:'LoginDialog',
   props: {
     isLogin: {
       type: Boolean,
@@ -58,10 +63,15 @@ export default {
       email: '',
       password: '',
     }),
+    computed: {
+      
+
+    },
   methods: {
       submit () {
-        alert('test')
+        this.$emit("dialogOff")
         loginProcess({ email: this.email, password:this.password})
+
       }
   }
        

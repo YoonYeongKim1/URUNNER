@@ -1,5 +1,6 @@
 import axios from "axios";
 import Vue from "vue";
+import EventBus from "../event";
 import { 
     // API_BASE_URL,
     API_URL_LOGIN, 
@@ -9,8 +10,10 @@ import {
     ROLES, 
     REFRESH_TOKEN, 
     ACCESS_TOKEN,
-    BEARER 
+    BEARER,
+    NAME
 } from '../constants/index'
+import state from '../store/states'
 
 // 로그인 프로세스
 function loginProcess(loginfo) {
@@ -19,6 +22,8 @@ function loginProcess(loginfo) {
     .then(res => {
         
         let token = res.data
+         
+        EventBus.$emit('isLogin', "isLogin");
         PasingInfor(token)
         
     }).catch(err => {
@@ -28,6 +33,7 @@ function loginProcess(loginfo) {
 
 // Jwt payload부분을 base64 디코딩한부분
 function PasingInfor(giveMeToken) {
+    
 
     const accessToken = giveMeToken.access_token.split(".")
 
@@ -40,12 +46,30 @@ function PasingInfor(giveMeToken) {
 //  ROLE_USER, ROLE_MANAGER 여러개 있을수 있습니다.
      let roles = result.roles
 
+     let name = result.name
+
      Vue.$cookies.set(USER_NAME, username, SAVE_COOKIE_ACCESS)
      Vue.$cookies.set(ROLES, roles, SAVE_COOKIE_ACCESS)
+     Vue.$cookies.set(NAME, name, SAVE_COOKIE_ACCESS)
+
+     state.name = name
+     state.email = username
 
      Vue.$cookies.set(ACCESS_TOKEN, BEARER + giveMeToken.access_token, SAVE_COOKIE_ACCESS)
      Vue.$cookies.set(REFRESH_TOKEN, BEARER + giveMeToken.refresh_token, SAVE_COOKIE_REFRESH)
+     
 }
+
+
+// 로그아웃
+function logout() {
+    Vue.$cookies.remove(ACCESS_TOKEN)
+    Vue.$cookies.remove(REFRESH_TOKEN)
+    Vue.$cookies.remove(ROLES)
+    Vue.$cookies.remove(USER_NAME)
+
+    EventBus.$emit('isLogin', null);
+  }
 
 // 토큰 재발급요청
 // function refreshToken() {
@@ -68,6 +92,7 @@ function PasingInfor(giveMeToken) {
 
 export {
     loginProcess,
-    PasingInfor
+    PasingInfor,
+    logout,
     // refreshToken
 }

@@ -10,6 +10,8 @@ public interface MemberService {
 
     public boolean registerMember(MemberRes memberRes) throws Exception;
 
-    public void leaveMember (Long memberNo) throws Exception;
+    public void leaveMember (String email) throws Exception;
+
+    //public boolean sendEmail(MemberRes memberRes) throws Exception;
 
 }

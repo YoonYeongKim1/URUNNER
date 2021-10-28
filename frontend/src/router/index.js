@@ -4,30 +4,77 @@ import VueRouter from 'vue-router';
 // 회원 탈퇴
 import LeaveMemberPage from '@/views/member/LeaveMemberPage.vue'
 
+//마이 페이지
+import MyPageStatus from '@/views/mypage/MyPageStatus.vue'
+
 Vue.use(VueRouter)
 
 export default new VueRouter({
   mode: 'history',
   routes: [
-    {
-      path: '/',
-      component: () => import('../views/MainPage.vue'),
-    },
-    {
-      path: '/memberRegister',
-      component: () => import('../views/MemberRegisterPage.vue')
-    },
-    // 회원 탈퇴
-    {
-      path: '/member/:memberNo',
-      name: 'LeaveMemberPage',
-      components: {
-        default: LeaveMemberPage
+      {
+          path: '/',
+          name: 'MainPage',
+          component: () => import ('../views/MainPage.vue')
+      }, {
+          path: '/memberRegister',
+          component: () => import ('../views/MemberRegisterPage.vue')
+      }, {
+          path: '/memberProfile',
+          name: 'memberProfile',
+          component: () => import ('../views/MemberProfilePage.vue')
       },
-      props: {
-        default: true
+      // 회원 탈퇴
+      {
+          path: '/leave-member',
+          name: 'LeaveMemberPage',
+          components: {
+              default: LeaveMemberPage
+          },
+          props: {
+              default: true
+          }
+      },
+      //myPage
+      {
+          path: '/my-page-status',
+          name: 'MyPageStatus',
+          components: {
+              default: MyPageStatus
+          },
+          props: {
+              default: true
+          }
+      }, 
+      {
+          path: '/mypage',
+          component: () => import ("../views/mypage/Mypage.vue"),
+          children: [
+              {
+                  path: '/wishlist',
+                  component: () => import ("../components/enrolment/WishList.vue")
+              }, {
+                path: '/forgot',
+                component: () => import ("../views/ForgotPasswordPage.vue")
+            },
+            {
+              path: '/coupons',
+              component: () => import("../components/enrolment/Coupon.vue")
+            },
+            {
+              path: '/my-points',
+              component: () => import("../components/enrolment/Mypoints.vue")
+            }
+          ]
+      },
+      {
+          path: '/cart',
+          component: () => import ("../components/enrolment/Cart.vue")
+      },
+      {
+        path: '/orders',
+        component: () => import("../components/enrolment/Orders.vue")
       }
-    }
   ]
 })
 
@@ -52,7 +99,6 @@ axios.interceptors.request.use(function (config) {
     }else{
       config.headers.Authorization = Vue.$cookies.get("ACCESS_TOKEN");
     }
-    alert("요청")
 
     return config;
   }, function (error) {

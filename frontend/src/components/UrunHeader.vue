@@ -17,7 +17,31 @@
                     <input type="text" class="search-input">
                         <v-icon>mdi-magnify</v-icon>
                     </div>
-                    <div class="d-flex">
+                     <div v-if="isLogin" class="d-flex">
+                      <v-btn color="primary" class="mr-5 hidden-md-and-down">최근강의 <v-icon>mdi-lead-pencil</v-icon></v-btn>
+
+                        <v-menu offset-y open-on-hover>
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-icon color="primary" v-on="on" v-bind="attrs" class="mr-4">mdi-cart-outline</v-icon>
+                          </template>
+                          <open-main-menu-cart/>
+                        </v-menu>
+
+                        <v-menu offset-y open-on-hover>
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-icon color="primary" v-on="on" v-bind="attrs" class="mr-4">mdi-bell-ring-outline</v-icon>
+                          </template>
+                          <open-main-menu-bell/>
+                        </v-menu>
+                        
+                        <v-menu offset-y open-on-hover>
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-icon color="primary" v-on="on" v-bind="attrs" class="mr-3">mdi-run-fast</v-icon>
+                          </template>
+                          <open-main-menu-logo @clickLogoutBtn="clickLogoutBtn"/>
+                        </v-menu>
+                    </div>
+                    <div v-else class="d-flex">
                         <v-btn outlined="outlined" class="mr-1 pa-1" @click="clickLoginBtn">로그인</v-btn>
                         <v-btn class="primary pa-1" @click="goToMemberRegisterPage">회원가입</v-btn>
                     </div>
@@ -37,7 +61,6 @@
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-
             <v-divider></v-divider>
             <v-list dense="dense" nav="nav">
                 <v-list-item v-for="item in items" :key="item.title" link="link">
@@ -51,14 +74,19 @@
 </template>
 
 <script>
+import EventBus from "../event"
+import Vue from 'vue'
+import OpenMainMenuBell from '../components/headerLoginMenu/OpenMainMenuBell.vue'
+import OpenMainMenuCart from '../components/headerLoginMenu/OpenMainMenuCart.vue'
+import OpenMainMenuLogo from '../components/headerLoginMenu/OpenMainMenuLogo.vue'
+
     export default {
-      props: {
-        isLogin: {
-          type: Boolean,
-          required: true
-        }
+      components: {
+        OpenMainMenuBell,
+        OpenMainMenuCart,
+        OpenMainMenuLogo
       },
-        data: () => ({
+      data: () => ({
             drawer: false,
             items: [
                 {
@@ -67,14 +95,22 @@
                     title: '언어'
                 }
             ],
+            isLogin: Vue.$cookies.get("ACCESS_TOKEN")
         }),
+       created: function() {
+         EventBus.$on('isLogin', (isLogin) => this.isLogin = isLogin)
+       },
+
         methods: {
           goToMemberRegisterPage() {
             this.$router.push('/memberRegister')
           },
           clickLoginBtn() {
             this.$emit('clickLoginBtn')
-          }
+          },
+          clickLogoutBtn() {
+            this.$emit('clickLogoutBtn')
+          } 
         }
     }
 </script>
