@@ -1,2 +1,5 @@
 export const FETCH_MEMBER = 'FETCH_MEMBER'
 export const FETCH_MY_INTRODUCE = 'FETCH_MY_INTRODUCE'
+// 공지 사항
+export const FETCH_NOTICE_LIST = 'FETCH_NOTICE_LIST'
+export const FETCH_NOTICE = 'FETCH_NOTICE' 

@@ -1,6 +1,10 @@
 import {
     FETCH_MEMBER,
-    FETCH_MY_INTRODUCE
+    FETCH_MY_INTRODUCE,
+
+    // 공지 사항
+    FETCH_NOTICE_LIST,
+    FETCH_NOTICE,
 
 } from './mutation-types'
 
@@ -20,6 +24,18 @@ export default {
                     console.log('res데이타는')
                     console.log(res.data)
                     this.$store.state.introduce = res.data
+                })
+    },
+    fetchNoticeList ({ commit }) {
+        return axios.get('http://localhost:7777/notice/noticeLists')
+                .then((res) => {
+                    commit(FETCH_NOTICE_LIST, res.data)
+                })
+    },
+    fetchNotice ({ commit }, noticeNo) {
+        return axios.get(`http://localhost:7777/notice/${noticeNo}`)
+                .then((res) => {
+                    commit(FETCH_NOTICE, res.data)
                 })
     }
 }

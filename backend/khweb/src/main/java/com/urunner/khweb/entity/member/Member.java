@@ -34,6 +34,7 @@ public class Member {
 
     @UpdateTimestamp
     private Date upDate;
+    private String introduce;
 
 
     public Member(String email, String password, String name) {

@@ -7,6 +7,12 @@ import LeaveMemberPage from '@/views/member/LeaveMemberPage.vue'
 //마이 페이지
 import MyPageStatus from '@/views/mypage/MyPageStatus.vue'
 
+// 공지 사항
+import NoticeRegisterPage from '@/views/notice/NoticeRegisterPage.vue'
+import NoticeListPage from '@/views/notice/NoticeListPage.vue'
+import NoticeReadPage from '@/views/notice/NoticeReadPage.vue'
+import NoticeModifyPage from '@/views/notice/NoticeModifyPage.vue'
+
 Vue.use(VueRouter)
 
 export default new VueRouter({
@@ -79,7 +85,42 @@ export default new VueRouter({
       {
         path: '/orders',
         component: () => import("../components/enrolment/Orders.vue")
-      }
+      },
+      // 공지 사항
+      {
+        path: '/notice/create',
+        name: 'NoticeRegisterPage',
+        components: {
+          default: NoticeRegisterPage
+        }
+      },
+      {
+        path: '/notice',
+        name: 'NoticeListPage',
+        components: {
+          default: NoticeListPage
+        }
+      },
+      {
+        path: '/notice/:noticeNo',
+        name: 'NoticeReadPage',
+        components: {
+          default: NoticeReadPage
+        },
+        props: {
+          default: true
+        }
+      },
+      {
+        path: '/notice/:noticeNo/edit',
+        name: 'NoticeModifyPage',
+        components: {
+          default: NoticeModifyPage
+        },
+        props: {
+          default: true
+        }
+      },
   ]
 })
 
